@@ -109,20 +109,20 @@ export async function subtitleVideoToMp4(
   await wait(1000)
   console.log('--------提取视频字幕--------')
   const subtitleFile = await getSubtitleFromVideo(videoSrc, subtitleIndex)
-  await wait(1000)
+  await wait(2000)
   console.log('--------生成字幕MP4--------')
   const child = spawn('ffmpeg', [
     '-i',
     pureVideo,
-    '-i',
-    subtitleFile,
+    '-vf',
+    `subtitles=${path.parse(subtitleFile).base}`,
     outputSrc,
   ])
 
   return new Promise((res) => {
     child.on('close', () => {
-      fs.unlink(pureVideo)
-      fs.unlink(subtitleFile)
+      // fs.unlink(pureVideo)
+      // fs.unlink(subtitleFile)
       res(outputSrc)
     })
     child.stderr.pipe(process.stdout)
