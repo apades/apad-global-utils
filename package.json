@@ -1,0 +1,26 @@
+{
+  "name": "apad-utils",
+  "description": "一些小工具",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "dev": "tsc --watch"
+  },
+  "bin": {
+    "apad-utils": "./bin/bin.js"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "colors": "^1.4.0",
+    "commander": "^9.5.0",
+    "fs-extra": "^11.1.0",
+    "mime-types": "^2.1.35",
+    "prompts": "^2.4.2",
+    "windows-shortcuts": "^0.1.6"
+  },
+  "devDependencies": {
+    "@types/fs-extra": "^11.0.0",
+    "@types/mime-types": "^2.1.1",
+    "@types/prompts": "^2.4.2"
+  }
+}
