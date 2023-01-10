@@ -39,7 +39,7 @@ declareFunction(
     })
     if (isUndefined(subtitleIndex)) return
     console.log(
-      `⚙ 字幕选择index:${subtitleIndex} ${videoStreamInfoList.Subtitle[subtitleIndex]} `
+      `⚙ 字幕选择index:${subtitleIndex} ${videoStreamInfoList.Subtitle[subtitleIndex].stream} `
     )
     let { videoName } = await prompts({
       name: 'videoName',

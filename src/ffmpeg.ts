@@ -1,7 +1,7 @@
 import { spawn } from 'child_process'
 import path from 'path'
 import fs from 'fs-extra'
-import { wait } from './utils'
+import { processOnUserAbort, wait } from './utils'
 import ora from 'ora'
 
 type VideoStreamInfo = {
@@ -105,14 +105,14 @@ export async function subtitleVideoToMp4(
   subtitleIndex: number,
   outputSrc = path.resolve(videoSrc, '../subtitle-out.mp4')
 ) {
-  const copyLoading = ora('生成纯MP4中').start()
+  const copyLoading = ora('生成纯MP4文件').start()
   const pureVideo = await copyToMp4(videoSrc)
-  copyLoading.stop()
+  copyLoading.succeed()
 
   await wait(1000)
-  const subtitleLoading = ora('提取视频字幕').start()
+  const subtitleLoading = ora('提取视频字幕文件').start()
   const subtitleFile = await getSubtitleFromVideo(videoSrc, subtitleIndex)
-  subtitleLoading.stop()
+  subtitleLoading.succeed()
 
   await wait(2000)
   const child = spawn('ffmpeg', [
@@ -124,9 +124,15 @@ export async function subtitleVideoToMp4(
   ])
 
   return new Promise((res) => {
+    let isObort = false
+    let offAbort = processOnUserAbort(() => {
+      isObort = true
+    })
     child.on('close', () => {
       fs.unlink(pureVideo)
       fs.unlink(subtitleFile)
+      offAbort()
+      if (isObort) fs.unlink(outputSrc)
       res(outputSrc)
     })
     child.stderr.pipe(process.stdout)
