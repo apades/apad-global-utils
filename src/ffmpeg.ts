@@ -2,6 +2,7 @@ import { spawn } from 'child_process'
 import path from 'path'
 import fs from 'fs-extra'
 import { wait } from './utils'
+import ora from 'ora'
 
 type VideoStreamInfo = {
   // eslint-disable-next-line @typescript-eslint/ban-types
@@ -104,13 +105,16 @@ export async function subtitleVideoToMp4(
   subtitleIndex: number,
   outputSrc = path.resolve(videoSrc, '../subtitle-out.mp4')
 ) {
-  console.log('--------copy成纯MP4--------')
+  const copyLoading = ora('生成纯MP4中').start()
   const pureVideo = await copyToMp4(videoSrc)
+  copyLoading.stop()
+
   await wait(1000)
-  console.log('--------提取视频字幕--------')
+  const subtitleLoading = ora('提取视频字幕').start()
   const subtitleFile = await getSubtitleFromVideo(videoSrc, subtitleIndex)
+  subtitleLoading.stop()
+
   await wait(2000)
-  console.log('--------生成字幕MP4--------')
   const child = spawn('ffmpeg', [
     '-i',
     pureVideo,
@@ -121,8 +125,8 @@ export async function subtitleVideoToMp4(
 
   return new Promise((res) => {
     child.on('close', () => {
-      // fs.unlink(pureVideo)
-      // fs.unlink(subtitleFile)
+      fs.unlink(pureVideo)
+      fs.unlink(subtitleFile)
       res(outputSrc)
     })
     child.stderr.pipe(process.stdout)
