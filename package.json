@@ -4,7 +4,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "dev": "tsc --watch"
+    "dev": "tsc --watch",
+    "release": "node script/release"
   },
   "bin": {
     "apad-utils": "./dist/bin.js"
@@ -15,6 +16,7 @@
   "author": "apades",
   "license": "MIT",
   "dependencies": {
+    "axios": "^1.2.2",
     "colors": "^1.4.0",
     "commander": "^9.5.0",
     "fs-extra": "^11.1.0",

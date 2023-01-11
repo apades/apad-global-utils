@@ -12,6 +12,7 @@
         "strictNullChecks": false,
         "sourceMap": false,
         "allowJs": true,
+        "resolveJsonModule": true,
         "outDir": "dist",
         "paths": {
             "*": [

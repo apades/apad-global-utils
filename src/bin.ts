@@ -1,9 +1,10 @@
 #!/usr/bin/env node
 import 'colors'
 import prompts from 'prompts'
-import { declareMap, importModules } from './core'
+import { checkVer, declareMap, importModules } from './core'
 ;(async () => {
   await importModules()
+  checkVer()
   // 这里是如果有参数，则运行commander模式
   if (process.argv.length > 2) {
   }

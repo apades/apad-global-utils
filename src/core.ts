@@ -1,6 +1,8 @@
 import fs from 'fs-extra'
 import path from 'path'
 import os from 'os'
+import { version } from '../package.json'
+import axios from 'axios'
 
 type declareFunctionProps = ParamType<typeof declareFunction>
 export const declareMap: dykey<{
@@ -33,4 +35,18 @@ export async function importModules() {
     })
 
   modules.forEach((module) => require(module))
+}
+
+export async function checkVer() {
+  let releaseVer = await axios(
+    'https://raw.githubusercontents.com/apades/apad-utils/master/package.json'
+  )
+    .then((res) => res.data.version)
+    .catch(() => {
+      console.error('检查版本失败'.red)
+      return version
+    })
+  if (releaseVer !== version) {
+    console.log(`当前版本 ${version.green} 发现新版本 ${releaseVer.green}`)
+  }
 }
