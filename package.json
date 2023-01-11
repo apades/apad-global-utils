@@ -7,8 +7,12 @@
     "dev": "tsc --watch"
   },
   "bin": {
-    "apad-utils": "./bin/bin.js"
+    "apad-utils": "./dist/bin.js"
   },
+  "files": [
+    "dist"
+  ],
+  "author": "apades",
   "license": "MIT",
   "dependencies": {
     "colors": "^1.4.0",
@@ -26,5 +30,9 @@
     "@types/mime-types": "^2.1.1",
     "@types/prompts": "^2.4.2",
     "typescript": "^4.9.4"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/apades/apad-utils.git"
   }
 }
